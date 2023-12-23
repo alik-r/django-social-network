@@ -1,4 +1,4 @@
 env/
-wey_backend/*.pyc
-wey_backend/*/*.pyc
-wey_backend/*/*/*.pyc
+dsn_backend/*.pyc
+dsn_backend/*/*.pyc
+dsn_backend/*/*/*.pyc
