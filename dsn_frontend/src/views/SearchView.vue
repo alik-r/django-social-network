@@ -31,7 +31,7 @@
                     </p>
 
                     <div class="mt-6 flex space-x-8 justify-around">
-                        <p class="text-xs text-gray-500">182 friends</p>
+                        <p class="text-xs text-gray-500">{{ user.friends_count }} friends</p>
                         <p class="text-xs text-gray-500">120 posts</p>
                     </div>
                 </div>
@@ -79,7 +79,7 @@ export default {
 
     methods: {
         submitForm() {
-            console.log('submitForm query:', this.query)
+            console.log('submitForm', this.query)
 
             axios
                 .post('/api/search/', {
