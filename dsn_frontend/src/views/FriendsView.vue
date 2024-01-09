@@ -86,12 +86,15 @@ import PeopleYouMayKnow from '../components/PeopleYouMayKnow.vue'
 import Trends from '../components/Trends.vue'
 import FeedItem from '../components/FeedItem.vue'
 import { useUserStore } from '@/stores/user'
+import { useToastStore } from '@/stores/toast'
 export default {
     name: 'FriendsView',
     setup() {
         const userStore = useUserStore()
+        const toastStore = useToastStore()
         return {
-            userStore
+            userStore,
+            toastStore
         }
     },
     components: {
@@ -128,6 +131,11 @@ export default {
                 .post(`/api/friends/${pk}/${status}/`)
                 .then(response => {
                     console.log('handleRequest response:', response.data)
+                    if (response.data.message == 'friendship request accepted') {
+                        this.toastStore.showToast(5000, 'The request has been accepted!', 'bg-emerald-300')
+                    } else if (response.data.message == 'friendship request rejected') {
+                        this.toastStore.showToast(5000, 'The request has been rejected.', 'bg-red-300')
+                    }
                 })
                 .catch(error => {
                     console.log('error', error)

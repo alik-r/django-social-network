@@ -74,6 +74,9 @@ def handle_friendship_request(request, id, status):
     friendship_request.status = status
     friendship_request.save()
 
+    if status == 'rejected':
+        return JsonResponse({'message': 'friendship request rejected'})
+
     user.friends.add(request.user)
     user.friends_count = user.friends_count + 1
     user.save()
@@ -83,4 +86,4 @@ def handle_friendship_request(request, id, status):
     request_user.friends_count = request_user.friends_count + 1
     request_user.save()
 
-    return JsonResponse({'message': 'friendship request updated'})
+    return JsonResponse({'message': 'friendship request accepted'})
