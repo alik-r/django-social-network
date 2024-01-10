@@ -5,7 +5,7 @@ from account.models import User
 from account.serializers import UserSerializer
 
 from .forms import PostForm
-from .models import Post
+from .models import Post, Like
 from .serializers import PostSerializer
 
 @api_view(['GET'])
@@ -46,3 +46,20 @@ def post_create(request):
         return JsonResponse(serializer.data, safe=False)
     else:
         return JsonResponse({'error': 'add somehting here later!...'})
+    
+@api_view(['POST'])
+def post_like(request, id):
+    post = Post.objects.get(pk=id)
+    user = request.user
+
+    if post.likes.filter(created_by_id=user.id).exists():
+        post.likes.filter(created_by_id=user.id).delete()
+        post.likes_count -= 1
+        post.save()
+        return JsonResponse({'message': 'unliked'})
+    else:
+        like = Like.objects.create(created_by=user)
+        post.likes.add(like)
+        post.likes_count += 1
+        post.save()
+        return JsonResponse({'message': 'liked'})
