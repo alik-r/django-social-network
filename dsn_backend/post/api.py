@@ -5,8 +5,8 @@ from account.models import User
 from account.serializers import UserSerializer
 
 from .forms import PostForm
-from .models import Post, Like
-from .serializers import PostSerializer
+from .models import Post, Like, Comment
+from .serializers import PostSerializer, PostDetailSerializer, CommentSerializer
 
 @api_view(['GET'])
 def post_list(request):
@@ -18,6 +18,13 @@ def post_list(request):
     posts = Post.objects.filter(created_by_id__in=list(user_ids)).order_by('-created_at')
     serializer = PostSerializer(posts, many=True)
     return JsonResponse(serializer.data, safe=False)
+
+@api_view(['GET'])
+def post_detail(request, id):
+    post = Post.objects.get(pk=id)
+    return JsonResponse({
+        'post': PostDetailSerializer(post).data,
+    })
 
 @api_view(['GET'])
 def post_list_profile(request, id):
@@ -63,3 +70,16 @@ def post_like(request, id):
         post.likes_count += 1
         post.save()
         return JsonResponse({'message': 'liked'})
+    
+@api_view(['POST'])
+def post_create_comment(request, id):
+    comment = Comment.objects.create(body=request.data.get('body'), created_by=request.user)
+
+    post = Post.objects.get(pk=id)
+    post.comments.add(comment)
+    post.comments_count += 1
+    post.save()
+
+    return JsonResponse({
+        'comment': CommentSerializer(comment).data,
+    })
