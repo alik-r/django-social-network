@@ -49,6 +49,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
 
+    def get_avatar(self):
+        if self.avatar:
+            return 'http://127.0.0.1:8000' + self.avatar.url
+        else:
+            return 'http://127.0.0.1:8000' + '/media/avatars/default.jpeg'
+
 class FriendshipRequest(models.Model):
     STATUSES = (
         ('pending', 'Pending'),
