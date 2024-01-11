@@ -34,9 +34,10 @@ def signup(request):
         form.save()
         # Send verification email later
     else:
-        message = 'error'
+        message = form.errors.as_json()
+        print(message)
 
-    return JsonResponse({'message': message})
+    return JsonResponse({'message': message}, safe=False)
 
 @api_view(['POST'])
 def edit_profile(request):

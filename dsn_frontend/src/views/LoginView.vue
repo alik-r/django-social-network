@@ -10,7 +10,8 @@
                 </p>
 
                 <p class="font-bold">
-                    Don't have an account? <RouterLink :to="{'name': 'signup'}" class="underline">Click here</RouterLink> to create one!
+                    Don't have an account? <RouterLink :to="{ 'name': 'signup' }" class="underline">Click here</RouterLink> to
+                    create one!
                 </p>
             </div>
         </div>
@@ -20,16 +21,18 @@
                 <form class="space-y-6" v-on:submit.prevent="submitForm">
                     <div>
                         <label>E-mail</label><br>
-                        <input type="email" v-model="form.email" placeholder="Your e-mail address" class="w-full mt-2 py-4 px-6 border border-gray-200 rounded-lg">
+                        <input type="email" v-model="form.email" placeholder="Your e-mail address"
+                            class="w-full mt-2 py-4 px-6 border border-gray-200 rounded-lg">
                     </div>
 
                     <div>
                         <label>Password</label><br>
-                        <input type="password" v-model="form.password" placeholder="Your password" class="w-full mt-2 py-4 px-6 border border-gray-200 rounded-lg">
+                        <input type="password" v-model="form.password" placeholder="Your password"
+                            class="w-full mt-2 py-4 px-6 border border-gray-200 rounded-lg">
                     </div>
 
                     <template v-if="errors.length > 0">
-                        <div class="bg-red-300 text-white rounded-lg p-6">
+                        <div class="bg-red-500 text-white rounded-lg p-6">
                             <p v-for="error in errors" v-bind:key="error">{{ error }}</p>
                         </div>
                     </template>
@@ -77,13 +80,15 @@ export default {
                     .post('/api/login/', this.form)
                     .then(response => {
                         this.userStore.setToken(response.data)
-                        console.log(response.data.access)
                         axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.access;
                     })
                     .catch(error => {
-                        console.log('error', error)
+                        console.log('error:', error)
+                        this.errors.push('Your email or password is incorrect. Please try again.')
                     })
-                
+            }
+
+            if (this.errors.length === 0) {
                 await axios
                     .get('/api/me/')
                     .then(response => {
@@ -91,7 +96,7 @@ export default {
                         this.$router.push('/feed')
                     })
                     .catch(error => {
-                        console.log('error', error)
+                        console.log('error:', error)
                     })
             }
         }

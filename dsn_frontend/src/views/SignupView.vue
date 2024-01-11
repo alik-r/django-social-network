@@ -44,7 +44,7 @@
                     </div>
 
                     <template v-if="errors.length > 0">
-                        <div class="bg-red-300 text-white rounded-lg p-6">
+                        <div class="bg-red-500 text-white rounded-lg p-6">
                             <p v-for="error in errors" v-bind:key="error">{{ error }}</p>
                         </div>
                     </template>
@@ -114,7 +114,11 @@ export default {
                             this.form.password1 = ''
                             this.form.password2 = ''
                         } else {
-                            this.toastStore.showToast(5000, 'Something went wrong. Please try again', 'bg-red-300')
+                            const data = JSON.parse(response.data.message)
+                            for (const key in data){
+                                this.errors.push(data[key][0].message)
+                            }
+                            this.toastStore.showToast(5000, 'Something went wrong. Please try again', 'bg-red-500')
                         }
                     })
                     .catch(error => {
