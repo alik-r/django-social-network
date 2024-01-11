@@ -85,7 +85,7 @@ import { useUserStore } from '@/stores/user'
 import { useToastStore } from '@/stores/toast'
 
 export default {
-    name: 'FeedView',
+    name: 'ProfileView',
 
     setup() {
         const userStore = useUserStore()

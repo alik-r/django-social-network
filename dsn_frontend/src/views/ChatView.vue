@@ -88,7 +88,7 @@
 import axios from 'axios'
 import { useUserStore } from '@/stores/user'
 export default {
-    name: 'chat',
+    name: 'ChatView',
     setup() {
         const userStore = useUserStore()
         return {

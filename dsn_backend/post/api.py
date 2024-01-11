@@ -5,8 +5,8 @@ from account.models import User
 from account.serializers import UserSerializer
 
 from .forms import PostForm
-from .models import Post, Like, Comment
-from .serializers import PostSerializer, PostDetailSerializer, CommentSerializer
+from .models import Post, Like, Comment, Trend
+from .serializers import PostSerializer, PostDetailSerializer, CommentSerializer, TrendSerializer
 
 @api_view(['GET'])
 def post_list(request):
@@ -16,6 +16,12 @@ def post_list(request):
         user_ids.append(user.id)
 
     posts = Post.objects.filter(created_by_id__in=list(user_ids)).order_by('-created_at')
+
+    trend_id = request.GET.get('trend', None)
+    if trend_id is not None:
+        trend = Trend.objects.get(pk=trend_id).title
+        posts = posts.filter(body__icontains=trend)
+
     serializer = PostSerializer(posts, many=True)
     return JsonResponse(serializer.data, safe=False)
 
@@ -87,3 +93,13 @@ def post_create_comment(request, id):
     return JsonResponse({
         'comment': CommentSerializer(comment).data,
     })
+
+@api_view(['GET'])
+def trend_list(request):
+    serializer = TrendSerializer(Trend.objects.all(), many=True)
+    return JsonResponse(serializer.data, safe=False)
+
+@api_view(['GET'])
+def trend_detail(request, id):
+    serializer = TrendSerializer(Trend.objects.get(pk=id))
+    return JsonResponse(serializer.data, safe=False)
