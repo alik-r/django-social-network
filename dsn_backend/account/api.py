@@ -35,7 +35,6 @@ def signup(request):
         # Send verification email later
     else:
         message = form.errors.as_json()
-        print(message)
 
     return JsonResponse({'message': message}, safe=False)
 
