@@ -190,6 +190,7 @@ export default {
                     console.log('data', response.data)
 
                     this.posts.unshift(response.data)
+                    this.user.posts_count += 1
                     this.body = ''
                 })
                 .catch(error => {
