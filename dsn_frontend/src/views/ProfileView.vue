@@ -20,6 +20,16 @@
                         Send friendship request
                     </button>
 
+
+                    <button 
+                        class="inline-block mt-4 py-4 px-3 bg-purple-600 text-xs text-white rounded-lg" 
+                        @click="sendDirectMessage"
+                        v-if="userStore.user.id !== user.id"
+                    >
+                        Send direct message
+                    </button>
+                    
+
                     <button 
                         class="inline-block py-4 px-3 bg-red-600 text-xs text-white rounded-lg" 
                         @click="logout"
@@ -118,6 +128,17 @@ export default {
     },
 
     methods: {
+        sendDirectMessage() {
+            axios
+                .get(`/api/chat/${this.$route.params.id}/get-or-create/`)
+                .then(response => {
+                    console.log('sendDirectMessage response:', response.data)
+                    this.$router.push('/chat')
+                })
+                .catch(error => {
+                    console.log('error', error)
+                })
+        },
         sendFriendshipRequest() {
             axios
                 .post(`/api/friends/${this.$route.params.id}/request/`)
@@ -139,7 +160,7 @@ export default {
             axios
                 .get(`/api/posts/profile/${this.$route.params.id}/`)
                 .then(response => {
-                    console.log('data', response.data)
+                    console.log('getFeed response:', response.data)
 
                     this.posts = response.data.posts
                     this.user = response.data.user
@@ -150,7 +171,7 @@ export default {
         },
 
         submitForm() {
-            console.log('submitForm', this.body)
+            console.log('submitForm body:', this.body)
 
             axios
                 .post('/api/posts/create/', {
