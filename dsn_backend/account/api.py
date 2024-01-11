@@ -49,7 +49,11 @@ def edit_profile(request):
         form = ProfileForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-        return JsonResponse({'message': 'updated'})
+        serializer = UserSerializer(user)
+        return JsonResponse({
+            'message': 'updated',
+            'user': serializer.data,
+        })
 
 @api_view(['GET'])
 def friends(request, id):
