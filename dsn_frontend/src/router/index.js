@@ -10,6 +10,7 @@ import PostView from '../views/PostView.vue'
 import ChatView from '../views/ChatView.vue'
 import TrendView from '../views/TrendView.vue'
 import ProfileEditView from '../views/ProfileEditView.vue'
+import PasswordEditView from '../views/PasswordEditView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -48,6 +49,11 @@ const router = createRouter({
       path: '/profile/edit',
       name: 'profile_edit',
       component: ProfileEditView
+    },
+    {
+      path: '/profile/edit/password',
+      name: 'password_edit',
+      component: PasswordEditView
     },
     {
       path: '/profile/:id/friends',

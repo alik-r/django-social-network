@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from .models import User, FriendshipRequest
 from .serializers import UserSerializer, FriendshipRequestSerializer
 from .forms import SignupForm, ProfileForm
+from django.contrib.auth.forms import PasswordChangeForm
 
 @api_view(['GET'])
 def me(request):
@@ -38,22 +39,34 @@ def signup(request):
 
     return JsonResponse({'message': message}, safe=False)
 
+
 @api_view(['POST'])
 def edit_profile(request):
     user = request.user
-    email = request.data.get('email')
 
-    if User.objects.exclude(id=user.id).filter(email=email).exists():
-        return JsonResponse({'message': 'email already exists'})
-    else: 
-        form = ProfileForm(request.POST, request.FILES, instance=user)
-        if form.is_valid():
-            form.save()
+    form = ProfileForm(request.POST, request.FILES, instance=user)
+    if form.is_valid():
+        form.save()
         serializer = UserSerializer(user)
         return JsonResponse({
             'message': 'updated',
             'user': serializer.data,
         })
+    else:
+        return JsonResponse({'message': form.errors.as_json()}, safe=False)
+
+
+@api_view(['POST'])
+def edit_password(request):
+    user = request.user
+    form = PasswordChangeForm(user=user, data=request.POST)
+
+    if form.is_valid():
+        form.save()
+        return JsonResponse({'message': 'updated'})
+    else:
+        return JsonResponse({'message': form.errors.as_json()}, safe=False)
+
 
 @api_view(['GET'])
 def friends(request, id):
@@ -84,6 +97,7 @@ def send_friendship_request(request, id):
         return JsonResponse({'message': 'friendship request created'})
     else:
         return JsonResponse({'message': 'request already sent'})
+
 
 @api_view(['POST'])
 def handle_friendship_request(request, id, status):
