@@ -1,3 +1,5 @@
+from django.contrib.auth.forms import PasswordChangeForm
+from django.core.mail import send_mail
 from django.http import JsonResponse
 
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
@@ -5,7 +7,6 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from .models import User, FriendshipRequest
 from .serializers import UserSerializer, FriendshipRequestSerializer
 from .forms import SignupForm, ProfileForm
-from django.contrib.auth.forms import PasswordChangeForm
 
 @api_view(['GET'])
 def me(request):
@@ -32,8 +33,18 @@ def signup(request):
     })
 
     if form.is_valid():
-        form.save()
-        # Send verification email later
+        user = form.save()
+        user.is_active = False
+        user.save()
+
+        url = f'http://127.0.0.1:8000/api/activate-account/?email={user.email}&id={user.id}'
+        send_mail(
+            "Activate your account",
+            f"Click the following link to activate your account: {url}",
+            "noreply@dsn.com",
+            [user.email],
+            fail_silently=False,
+        )
     else:
         message = form.errors.as_json()
 

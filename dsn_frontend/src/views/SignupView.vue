@@ -108,7 +108,7 @@ export default {
                     .post('/api/signup/', this.form)
                     .then(response => {
                         if (response.data.message === 'success') {
-                            this.toastStore.showToast(5000, 'The user is registered. Please log in', 'bg-emerald-500')
+                            this.toastStore.showToast(5000, 'User registered successfully! Please activate your account by clicking the activation link sent to your email.', 'bg-emerald-500 text-white');
                             this.form.email = ''
                             this.form.name = ''
                             this.form.password1 = ''

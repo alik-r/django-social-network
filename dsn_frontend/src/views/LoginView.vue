@@ -84,7 +84,7 @@ export default {
                     })
                     .catch(error => {
                         console.log('error:', error)
-                        this.errors.push('Your email or password is incorrect. Please try again.')
+                        this.errors.push('Invalid email or password. Please check your credentials and ensure your account is activated.');
                     })
             }
 
