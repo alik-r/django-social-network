@@ -63,30 +63,30 @@ export default {
             axios
                 .get('/api/posts/')
                 .then(response => {
-                    console.log('data', response.data)
+                    console.log('getFeed response:', response.data)
 
                     this.posts = response.data
                 })
                 .catch(error => {
-                    console.log('error', error)
+                    console.log('error:', error)
                 })
         },
 
         submitForm() {
-            console.log('submitForm', this.body)
+            console.log('submitForm body:', this.body)
 
             axios
                 .post('/api/posts/create/', {
                     'body': this.body
                 })
                 .then(response => {
-                    console.log('data', response.data)
+                    console.log('submitForm (create post) response:', response.data)
 
                     this.posts.unshift(response.data)
                     this.body = ''
                 })
                 .catch(error => {
-                    console.log('error', error)
+                    console.log('error:', error)
                 })
         }
     }
