@@ -118,7 +118,6 @@ export default {
                             for (const key in data){
                                 this.errors.push(data[key][0].message)
                             }
-                            this.toastStore.showToast(5000, 'Something went wrong. Please try again', 'bg-red-500')
                         }
                     })
                     .catch(error => {
