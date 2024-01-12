@@ -4,6 +4,8 @@ from django.http import JsonResponse
 
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 
+from notification.utils import create_notification
+
 from .models import User, FriendshipRequest
 from .serializers import UserSerializer, FriendshipRequestSerializer
 from .forms import SignupForm, ProfileForm
@@ -104,7 +106,8 @@ def send_friendship_request(request, id):
     check2 = FriendshipRequest.objects.filter(created_for=user).filter(created_by=request.user)
 
     if not check1 or not check2:
-        FriendshipRequest.objects.create(created_for=user, created_by=request.user)
+        friendship_request = FriendshipRequest.objects.create(created_for=user, created_by=request.user)
+        create_notification(request, 'friend_request', friend_request_id=friendship_request.id)
         return JsonResponse({'message': 'friendship request created'})
     else:
         return JsonResponse({'message': 'request already sent'})
@@ -118,6 +121,7 @@ def handle_friendship_request(request, id, status):
     friendship_request.save()
 
     if status == 'rejected':
+        create_notification(request, 'friend_reject', friend_request_id=friendship_request.id)
         return JsonResponse({'message': 'friendship request rejected'})
 
     user.friends.add(request.user)
@@ -128,5 +132,7 @@ def handle_friendship_request(request, id, status):
     request_user.friends.add(user)
     request_user.friends_count = request_user.friends_count + 1
     request_user.save()
+
+    create_notification(request, 'friend_accept', friend_request_id=friendship_request.id)
 
     return JsonResponse({'message': 'friendship request accepted'})

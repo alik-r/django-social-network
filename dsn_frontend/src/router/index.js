@@ -11,6 +11,7 @@ import ChatView from '../views/ChatView.vue'
 import TrendView from '../views/TrendView.vue'
 import ProfileEditView from '../views/ProfileEditView.vue'
 import PasswordEditView from '../views/PasswordEditView.vue'
+import NotificationsView from '../views/NotificationsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -74,6 +75,11 @@ const router = createRouter({
       path: '/trends/:id',
       name: 'trend_view',
       component: TrendView
+    },
+    {
+      path: '/notifications',
+      name: 'notifications',
+      component: NotificationsView
     },
     {
       path: '/about',
