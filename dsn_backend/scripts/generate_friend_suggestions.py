@@ -9,12 +9,12 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dsn_backend.settings")
 django.setup()
 
 from account.models import User
+from django.db.models import Q
 
 users = User.objects.all()
 
 for user in users:
     user.friend_suggestions.clear()
-    for friend in user.friends.all():
-        for friend_of_a_friend in friend.friends.all():
-            if friend_of_a_friend not in user.friends.all() and friend_of_a_friend != user:
-                user.friend_suggestions.add(friend_of_a_friend)
+    user_friends = user.friends.all()
+    friend_of_friend_qs = User.objects.filter(friends__in=user_friends).exclude(id=user.id).exclude(friends=user)
+    user.friend_suggestions.add(*friend_of_friend_qs)
