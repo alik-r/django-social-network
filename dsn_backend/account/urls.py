@@ -14,7 +14,8 @@ urlpatterns = [
     path('friends/<uuid:id>/', api.friends, name='friends'),
     path('friends/<uuid:id>/request/', api.send_friendship_request, name='send_friendship_request'),
     path('friends/<uuid:id>/<str:status>/', api.handle_friendship_request, name='handle_friendship_request'),
-    path('activate-account/', views.activate_account, name='activate_account')
+    path('friends/suggested/', api.friend_suggestions, name='friend_suggestions'),
+    path('activate-account/', views.activate_account, name='activate_account'),
 ]
 
 

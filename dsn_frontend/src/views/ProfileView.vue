@@ -15,7 +15,7 @@
                     <button 
                         class="inline-block py-4 px-3 bg-purple-600 text-xs text-white rounded-lg" 
                         @click="sendFriendshipRequest"
-                        v-if="userStore.user.id !== user.id"
+                        v-if="userStore.user.id !== user.id && can_send_friendship_request"
                     >
                         Send friendship request
                     </button>
@@ -133,6 +133,7 @@ export default {
             },
             body: '',
             url: null,
+            can_send_friendship_request: null,
             errors: [],
         }
     },
@@ -173,10 +174,12 @@ export default {
             axios
                 .post(`/api/friends/${this.$route.params.id}/request/`)
                 .then(response => {
-                    console.log('sent friendship:', response.data)
+                    console.log('sendFriendshipRequest response:', response.data)
+
+                    this.can_send_friendship_request = false
 
                     if (response.data.message == 'request already sent') {
-                        this.toastStore.showToast(5000, 'The request has already been sent!', 'bg-red-300')
+                        this.toastStore.showToast(5000, 'The request has already been sent!', 'bg-orange-500')
                     } else {
                         this.toastStore.showToast(5000, 'The request was sent!', 'bg-emerald-300')
                     }
@@ -194,6 +197,7 @@ export default {
 
                     this.posts = response.data.posts
                     this.user = response.data.user
+                    this.can_send_friendship_request = response.data.can_send_friendship_request
                 })
                 .catch(error => {
                     console.log('error', error)
