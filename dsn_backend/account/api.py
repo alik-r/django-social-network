@@ -99,7 +99,7 @@ def friends(request, id):
 
 @api_view(['GET'])
 def friend_suggestions(request):
-    serializer = UserSerializer(request.user.friend_suggestions, many=True)
+    serializer = UserSerializer(request.user.friend_suggestions.all(), many=True)
     return JsonResponse(serializer.data, safe=False)
 
 
