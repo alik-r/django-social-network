@@ -101,6 +101,33 @@ def post_create(request):
     else:
         return JsonResponse({'message': form.errors.as_json()}, safe=False)
     
+@api_view(['DELETE'])
+def post_delete(request, id):
+    try:
+        user = request.user 
+        post = Post.objects.filter(created_by=user).get(pk=id)
+        post.delete()
+
+        user.posts_count -= 1
+        user.save()
+
+        return JsonResponse({'message': 'deleted'})
+    except Post.DoesNotExist:
+        return JsonResponse({'message': 'post not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'message': str(e)}, status=500)
+    
+def post_report(request, id):
+    post = Post.objects.get(pk=id)
+    user = request.user
+
+    if post.reported_by.filter(id=user.id).exists():
+        return JsonResponse({'message': 'already reported'})
+
+    post.reported_by.add(user)
+    post.save()
+    return JsonResponse({'message': 'reported'})
+
 @api_view(['POST'])
 def post_like(request, id):
     post = Post.objects.get(pk=id)
