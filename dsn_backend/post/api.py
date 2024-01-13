@@ -13,11 +13,7 @@ from .serializers import PostSerializer, PostDetailSerializer, CommentSerializer
 
 @api_view(['GET'])
 def post_list(request):
-    user_ids = [request.user.id]
-
-    for user in request.user.friends.all():
-        user_ids.append(user.id)
-
+    user_ids = [request.user.id] + [user.id for user in request.user.friends.all()]
     posts = Post.objects.filter(created_by_id__in=list(user_ids)).order_by('-created_at')
 
     trend_id = request.GET.get('trend', None)
@@ -30,11 +26,7 @@ def post_list(request):
 
 @api_view(['GET'])
 def post_detail(request, id):
-    user_ids = [request.user.id]
-
-    for user in request.user.friends.all():
-        user_ids.append(user.id)
-
+    user_ids = [request.user.id] + [user.id for user in request.user.friends.all()]
     post = Post.objects.filter(Q(created_by_id__in=list(user_ids)) | Q(is_private=False)).get(pk=id)
     return JsonResponse({
         'post': PostDetailSerializer(post).data,

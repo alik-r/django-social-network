@@ -12,10 +12,7 @@ def search(request):
     data = request.data 
     query = data['query']
 
-    user_ids = [request.user.id]
-
-    for user in request.user.friends.all():
-        user_ids.append(user.id)
+    user_ids = [request.user.id] + [user.id for user in request.user.friends.all()]
     
     users = User.objects.filter(name__icontains=query)
     users_serializer = UserSerializer(users, many=True)
