@@ -23,7 +23,7 @@
                     </div>
 
                     <div class="p-4 border-t border-gray-100">
-                        <button class="inline-block py-4 px-6 bg-purple-600 text-white rounded-lg">Comment</button>
+                        <button class="inline-block py-4 px-6 bg-blue-600 text-white rounded-lg">Comment</button>
                     </div>
                 </form>
             </div>

@@ -79,7 +79,7 @@
                     </div>
 
                     <div class="p-4 border-t border-gray-100 flex justify-between">
-                        <button class="inline-block py-4 px-6 bg-purple-600 text-white rounded-lg">Send</button>
+                        <button class="inline-block py-4 px-6 bg-blue-600 text-white rounded-lg">Send</button>
                     </div>
                 </form>
             </div>

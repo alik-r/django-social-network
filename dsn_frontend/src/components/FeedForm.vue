@@ -22,7 +22,7 @@
                 </svg>
             </label>
 
-            <button class="ml-auto inline-block py-4 px-6 bg-purple-600 text-white rounded-lg">Post</button>
+            <button class="ml-auto inline-block py-4 px-6 bg-blue-600 text-white rounded-lg">Post</button>
         </div>
     </form>
 </template>

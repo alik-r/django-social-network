@@ -13,7 +13,7 @@
 
                 <div class="mt-6">
                     <button 
-                        class="inline-block py-4 px-3 bg-purple-600 text-xs text-white rounded-lg" 
+                        class="inline-block py-4 px-3 bg-blue-600 text-xs text-white rounded-lg" 
                         @click="sendFriendshipRequest"
                         v-if="userStore.user.id !== user.id && can_send_friendship_request"
                     >
@@ -22,7 +22,7 @@
 
 
                     <button 
-                        class="inline-block mt-4 py-4 px-3 bg-purple-600 text-xs text-white rounded-lg" 
+                        class="inline-block mt-4 py-4 px-3 bg-blue-600 text-xs text-white rounded-lg" 
                         @click="sendDirectMessage"
                         v-if="userStore.user.id !== user.id"
                     >
@@ -31,7 +31,7 @@
 
 
                     <RouterLink 
-                        class="inline-block mr-2 py-4 px-3 bg-purple-600 text-xs text-white rounded-lg" 
+                        class="inline-block mr-2 py-4 px-3 bg-blue-600 text-xs text-white rounded-lg" 
                         to="/profile/edit"
                         v-if="userStore.user.id === user.id"
                     >

@@ -14,7 +14,7 @@
                     <p class="text-xs"><strong>{{ user.name }}</strong></p>
                 </div>
 
-                <RouterLink :to="{name: 'profile', params: {id: user.id}}" class="py-2 px-3 bg-purple-600 text-white text-xs rounded-lg">Show</RouterLink>
+                <RouterLink :to="{name: 'profile', params: {id: user.id}}" class="py-2 px-3 bg-blue-600 text-white text-xs rounded-lg">Show</RouterLink>
             </div>
         </div>
     </div>
