@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.mail import send_mail
 from django.http import JsonResponse
@@ -39,7 +40,7 @@ def signup(request):
         user.is_active = False
         user.save()
 
-        url = f'http://127.0.0.1:8000/api/activate-account/?email={user.email}&id={user.id}'
+        url = f'{settings.WEBSITE_URL}/api/activate-account/?email={user.email}&id={user.id}'
         send_mail(
             "Activate your account",
             f"Click the following link to activate your account: {url}",

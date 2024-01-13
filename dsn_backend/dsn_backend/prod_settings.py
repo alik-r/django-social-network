@@ -25,9 +25,10 @@ SECRET_KEY = "django-insecure-0bxwii)k$h$_l8--vz@h8a@7n+0u6i$-5%l!4byyqf*84(=7dr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# dsn <=> django-social-network, imaginary URL, it's not mine
+ALLOWED_HOSTS = ['api.dsn.com']
 
-WEBSITE_URL = 'http://127.0.0.1:8000'
+WEBSITE_URL = 'http://api.dsn.com'
 
 
 # Application definition
@@ -50,11 +51,11 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:5173",
+    "http://dsn.com",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://127.0.0.1:5173",
+    "http://dsn.com",
 ]
 
 INSTALLED_APPS = [
