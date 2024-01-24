@@ -12,6 +12,8 @@ import TrendView from '../views/TrendView.vue'
 import ProfileEditView from '../views/ProfileEditView.vue'
 import PasswordEditView from '../views/PasswordEditView.vue'
 import NotificationsView from '../views/NotificationsView.vue'
+import ForgotPasswordView from '../views/ForgotPasswordView.vue'
+import ResetPasswordView from '../views/ResetPasswordView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -80,6 +82,16 @@ const router = createRouter({
       path: '/notifications',
       name: 'notifications',
       component: NotificationsView
+    },
+    {
+      path: '/forgot-password',
+      name: 'forgot-password',
+      component: ForgotPasswordView 
+    },
+    {
+      path: '/reset-password',
+      name: 'reset-password',
+      component: ResetPasswordView 
     },
     {
       path: '/about',

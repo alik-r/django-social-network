@@ -1,7 +1,8 @@
 from django.conf import settings
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.core.mail import send_mail
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 
@@ -68,6 +69,46 @@ def edit_profile(request):
         })
     else:
         return JsonResponse({'message': form.errors.as_json()}, safe=False)
+
+@api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
+def forgot_password(request):
+    email = request.data.get('email')
+    message = 'sent'
+
+    try:
+        user = User.objects.get(email=email)
+        url = f'{settings.FRONTEND_URL}/reset-password/?email={user.email}&id={user.id}'
+        send_mail(
+            "Reset password",
+            f"Click the following link to reset your password: {url}",
+            "noreply@dsn.com",
+            [user.email],
+            fail_silently=False,
+        )
+    except User.DoesNotExist:
+        message = 'not found'
+
+    return JsonResponse({'message': message}, safe=False)
+
+@api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
+def reset_password(request):
+    email = request.data.get('email')
+    user_id = request.data.get('user_id')
+    new_password = request.data.get('new_password')
+    message = 'success'
+
+    user = get_object_or_404(User, email=email, id=user_id)
+    form = SetPasswordForm(user=user, data={'new_password1': new_password, 'new_password2': new_password})
+    if form.is_valid():
+        form.save()
+    else:
+        message = form.errors.as_json()
+    
+    return JsonResponse({'message': message}, safe=False)
 
 
 @api_view(['POST'])

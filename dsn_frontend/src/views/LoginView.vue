@@ -10,7 +10,8 @@
                 </p>
 
                 <p class="font-bold">
-                    Don't have an account? <RouterLink :to="{ 'name': 'signup' }" class="underline">Click here</RouterLink> to
+                    Don't have an account? <RouterLink :to="{ 'name': 'signup' }" class="underline">Click here</RouterLink>
+                    to
                     create one!
                 </p>
             </div>
@@ -36,6 +37,12 @@
                             <p v-for="error in errors" v-bind:key="error">{{ error }}</p>
                         </div>
                     </template>
+                    
+                    <div class="mt-4">
+                        <RouterLink :to="{ 'name': 'forgot-password' }" class="text-blue-600 hover:underline">
+                            Forgot Password?
+                        </RouterLink>
+                    </div>
 
                     <div>
                         <button class="py-4 px-6 bg-blue-600 text-white rounded-lg">Log in</button>
